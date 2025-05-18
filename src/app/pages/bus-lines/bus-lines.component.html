@@ -1,0 +1,18 @@
+abcd
+
+<p-table [value]="busLines">
+    <ng-template #header>
+        <tr>
+            <td>Odrediste</td>
+            <td>Vrijeme polaska</td>
+            <td>Vrijeme dolaska</td>
+            <td>Cijena</td>
+        </tr>
+    </ng-template>
+    <ng-template #body let-busLine>
+        <td>{{busLine.Odrediste}}</td>
+        <td>{{busLine.vrijemePolaska}}</td>
+        <td>{{busLine.vrijemeDolaska}}</td>
+        <td>{{busLine.Cijena}}</td>
+    </ng-template>
+</p-table>
