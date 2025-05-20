@@ -1,18 +1,21 @@
-abcd
-
-<p-table [value]="busLines">
-    <ng-template #header>
+<p-table [value]="busLines" [tableStyle]="{ 'min-width': '50rem' }">
+    <ng-template pTemplate="header">
         <tr>
-            <td>Odrediste</td>
-            <td>Vrijeme polaska</td>
-            <td>Vrijeme dolaska</td>
-            <td>Cijena</td>
+            <th>Time of departure</th>
+            <th>Time of arrival</th>
+            <th>Price</th>
+            <th><p-button label="Create new" severity="info" (onClick)="createNewLine()" class="justify-self-end" />
+            </th>
         </tr>
     </ng-template>
-    <ng-template #body let-busLine>
-        <td>{{busLine.Odrediste}}</td>
-        <td>{{busLine.vrijemePolaska}}</td>
-        <td>{{busLine.vrijemeDolaska}}</td>
-        <td>{{busLine.Cijena}}</td>
+    <ng-template pTemplate="body" let-busLine>
+        <tr>
+            <td>{{busLine.vrijemePolaska}}</td>
+            <td>{{busLine.vrijemeDolaska}}</td>
+            <td>{{busLine.cijena}}</td>
+            <td><p-button label="Details" severity="info" (onClick)="getBusLineDetails(busLine.autobusnaLinijaId)"
+                    [outlined]="true" />
+            </td>
+        </tr>
     </ng-template>
 </p-table>

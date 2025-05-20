@@ -1,0 +1,206 @@
+<div class="flex flex-row align-content-between mb-5">
+    <div class="w-100">
+
+        <p-tabMenu [model]="tabs" [activeItem]="activeItem" (activeItemChange)="onActiveItemChange($event)" />
+    </div>
+    <div class="flex flex-row justify-content-center ml-auto mr-4">
+        <p-button label="Save" severity="info" (onClick)="save()" class="mr-4" [outlined]="true" />
+        <p-button label="Delete" severity="danger" (onClick)="deleteBusLine(line!.autobusnaLinijaId!)"
+            [outlined]="true" />
+    </div>
+</div>
+
+<div *ngIf="activeItem === tabs![0]">
+
+    <!-- TIME OF DEPARTURE -->
+    <div class="flex flex-column gap-2 mb-3">
+        <label for="departure">Time of departure</label>
+        <input pInputText id="time-of-departure" aria-describedby="time-of-departure-help"
+            [(ngModel)]="line!.vrijemePolaska" />
+        <small class="time-of-departure-help color-gray">
+            Edit the time of departure
+        </small>
+    </div>
+
+
+    <!-- TIME OF ARRIVAL-->
+    <div class="flex flex-column gap-2 mb-3">
+        <label for="arrival">Time of arrival</label>
+        <input pInputText id="time-of-arrival" aria-describedby="time-of-arrival-help"
+            [(ngModel)]="line!.vrijemeDolaska" />
+        <small class="time-of-arrival-help color-gray">
+            Edit the time of arrival
+        </small>
+    </div>
+
+
+    <!-- PRICE -->
+    <div class="flex flex-column gap-2 mb-3">
+        <label for="price">Price</label>
+        <input pInputText id="price" aria-describedby="price-help" [(ngModel)]="line!.cijena" />
+        <small class="price-help color-gray">
+            Edit the price
+        </small>
+    </div>
+</div>
+
+
+<div *ngIf="activeItem === tabs![1]">
+
+    <div class="flex flex-row align-items-center mb-3">
+        <div class="flex mr-3">Select the bus:</div>
+        <p-dropdown [options]="allbus" [(ngModel)]="currentBus" optionLabel="name" [showClear]="true"
+            placeholder="Select a Bus">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="currentBus">
+                    <div>{{ currentBus.model }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-bus pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div>{{ bus.model }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="flex flex-column gap-2 mb-3">
+        <label for="noSeats">Number of seats</label>
+        <input pInputText id="number-of-seats" aria-describedby="number-of-seats-help"
+            [(ngModel)]="currentBus!.brojSjedala" [disabled]="true" />
+        <small class="number-of-seats-help color-gray">
+            Edit the number of seats
+        </small>
+    </div>
+
+    <div class="flex flex-column gap-2 mb-3">
+        <label for="length">Length</label>
+        <input pInputText id="length" aria-describedby="length-help" [(ngModel)]="currentBus!.duljina"
+            [disabled]="true" />
+        <small class="length-help color-gray">
+            Edit the length of the bus
+        </small>
+    </div>
+
+    <div class="flex flex-column gap-2 mb-3">
+        <label for="width">Width</label>
+        <input pInputText id="width" aria-describedby="width-help" [(ngModel)]="currentBus!.sirina" [disabled]="true" />
+        <small class="width-help color-gray">
+            Edit the width the bus
+        </small>
+    </div>
+
+    <div class="flex flex-column gap-2 mb-3">
+        <label for="model">Model</label>
+        <input pInputText id="model" aria-describedby="model-help" [(ngModel)]="currentBus!.model" [disabled]="true" />
+        <small class="model-help color-gray">
+            Edit the model of the bus
+        </small>
+    </div>
+
+
+
+</div>
+
+<div *ngIf="activeItem === tabs![2]">
+
+    <p-table [value]="line!.putnici!" [tableStyle]="{ 'min-width': '50rem' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-passanger>
+            <tr>
+                <td>{{passanger.ime}}</td>
+                <td>{{passanger.prezime}}</td>
+                <td>{{passanger.email}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<div *ngIf="activeItem === tabs![3]">
+
+    <div class="flex flex-row align-items-center mb-3">
+
+        <div class="mr-3">
+            Select a destination
+        </div>
+        <p-dropdown [options]="allDestinations" [(ngModel)]="currentDestination" optionLabel="name" [showClear]="true"
+            placeholder="Select a Destination">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="currentDestination">
+                    <div>{{ currentDestination.grad }}, {{ currentDestination.drzava }}</div>
+                </div>
+            </ng-template>
+            <ng-template let-destination pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div>{{ destination!.grad }}, {{ destination!.drzava }}</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+
+    </div>
+    <div class="flex flex-column gap-2 mb-3">
+        <label for="city">Destination city</label>
+        <input pInputText id="destination-city" aria-describedby="destination-city-help"
+            [(ngModel)]="currentDestination!.grad" [disabled]="true" />
+        <small class="destination-city-help color-gray">
+            Edit the destination city
+        </small>
+    </div>
+
+    <div class="flex flex-column gap-2 mb-3">
+        <label for="country">Destination country</label>
+        <input pInputText id="destination-country" aria-describedby="destination-country-help"
+            [(ngModel)]="currentDestination!.drzava" [disabled]="true" />
+        <small class="destination-country-help color-gray">
+            Edit the destination country
+        </small>
+    </div>
+
+    <div class="flex flex-column gap-2 mb-3">
+        <label for="bus-station">Bus station</label>
+        <input pInputText id="bus-station" aria-describedby="bus-station-help"
+            [(ngModel)]="currentDestination!.autobusniKolodvor" [disabled]="true" />
+        <small class="bus-station-help color-gray">
+            Edit the bus station
+        </small>
+    </div>
+
+</div>
+
+<div *ngIf="activeItem === tabs![4]">
+
+    <div class="flex flex-row align-items-center mb-3">
+
+        <div class="mr-3">
+            Select an arriving terminal:
+        </div>
+        <p-dropdown [options]="allArrivingTerminals" [(ngModel)]="currentArrivingTerminal" optionLabel="name"
+            [showClear]="true" placeholder="Select a Arriving terminal">
+            <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="currentArrivingTerminal">
+                    <div>Peron: {{ currentArrivingTerminal.peronId}}, {{ currentArrivingTerminal.visina }}m</div>
+                </div>
+            </ng-template>
+            <ng-template let-terminal pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                    <div>Peron: {{ terminal!.peronId }}, {{ terminal.visina}}m</div>
+                </div>
+            </ng-template>
+        </p-dropdown>
+    </div>
+
+    <div class="flex flex-column gap-2">
+        <label for="arriving-terminal-height">Arriving terminal height</label>
+        <input pInputText id="arriving-terminal-height" aria-describedby="arriving-terminal-height-help"
+            [(ngModel)]="currentArrivingTerminal!.visina" [disabled]="true" />
+        <small class="arriving-terminal-height-help color-gray">
+            Edit the height of the arriving terminal
+        </small>
+    </div>
+</div>

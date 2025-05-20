@@ -1,11 +1,12 @@
+import { Passanger } from './Passanger';
+
 export interface BusLine {
-  autobusnaLinijaId: number;
-  vrijemeDolaska: string;
-  vrijemePolaska: string;
-  cijena: number;
-  odredisteGrad: string;
-  odredisteDrzava: string;
-  autobusniKolodvor: string;
-  modelAutobus: string;
-  peron: number;
+  autobusnaLinijaId?: number;
+  autobusId?: number;
+  odredisteId?: number;
+  vrijemeDolaska?: string;
+  vrijemePolaska?: string;
+  cijena?: number;
+  peronId?: number;
+  putnici?: Passanger[];
 }
