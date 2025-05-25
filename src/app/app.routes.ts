@@ -14,11 +14,6 @@ const routeConfig: Routes = [
     title: 'Bus Line',
   },
   {
-    path: 'create-new-line',
-    component: BusLineComponent,
-    title: '',
-  },
-  {
     path: '',
     redirectTo: 'bus-lines',
     pathMatch: 'full',

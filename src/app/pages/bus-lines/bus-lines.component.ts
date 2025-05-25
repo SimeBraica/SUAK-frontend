@@ -24,10 +24,7 @@ export class BusLinesComponent implements OnInit {
 
   ngOnInit() {
     this._busLineService.getLines().subscribe((busLine) => {
-      console.log('busline: ', busLine);
       this.busLines = busLine;
-
-      console.error('kraj mene je busLines:; ', this.busLines);
     });
   }
 
@@ -36,6 +33,8 @@ export class BusLinesComponent implements OnInit {
   }
 
   createNewLine() {
-    this._router.navigate(['bus-lines', 0]);
+    this._busLineService.createEmptyLine().subscribe((a) => {
+      this._router.navigate(['bus-lines', a.autobusnaLinijaId]);
+    });
   }
 }

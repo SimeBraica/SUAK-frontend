@@ -74,19 +74,11 @@
     </div>
 
     <div class="flex flex-column gap-2 mb-3">
-        <label for="length">Length</label>
-        <input pInputText id="length" aria-describedby="length-help" [(ngModel)]="currentBus!.duljina"
+        <label for="height">Height</label>
+        <input pInputText id="height" aria-describedby="height-help" [(ngModel)]="currentBus!.visina"
             [disabled]="true" />
-        <small class="length-help color-gray">
-            Edit the length of the bus
-        </small>
-    </div>
-
-    <div class="flex flex-column gap-2 mb-3">
-        <label for="width">Width</label>
-        <input pInputText id="width" aria-describedby="width-help" [(ngModel)]="currentBus!.sirina" [disabled]="true" />
-        <small class="width-help color-gray">
-            Edit the width the bus
+        <small class="height-help color-gray">
+            Edit the height of the bus
         </small>
     </div>
 
@@ -103,22 +95,99 @@
 </div>
 
 <div *ngIf="activeItem === tabs![2]">
+    <div class="flex flex-row mb-3">
+        <div class="flex align-self-center mr-3">Add a new passanger</div>
+        <div>
+            <p-autoComplete [(ngModel)]="selectedPassanger" [suggestions]="allPassangers" [dropdown]="true"
+                placeholder="Search" (completeMethod)="filterPassanger($event)" (onSelect)="selectPassanger($event)"
+                class="w-100 mr-3">
+                <ng-template let-passanger pTemplate="item">
+                    {{passanger.email}}
+                </ng-template>
+            </p-autoComplete>
+        </div>
+        <div>
+            <p-button label="Add" (onClick)="addPassangerToLine()"></p-button>
+        </div>
+        <div class="flex flex-row align-content-center ml-3">
+            <div class="mr-3 flex align-self-center">
+                Search for a user by email
+            </div>
+            <div>
+                <input type="text" pInputText [(ngModel)]="searchUserEmail" />
+            </div>
+            <div>
+                <p-button label="Search" (onClick)="searchPassanger()"></p-button>
+            </div>
+            <div>
+                <p-button label="X" (onClick)="resetPassangerList()" severity="danger"></p-button>
+            </div>
+        </div>
+    </div>
 
-    <p-table [value]="line!.putnici!" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table [value]="line!.putnici!" [tableStyle]="{ 'min-width': '50rem' }" editMode="row" dataKey="putnikId">
         <ng-template pTemplate="header">
             <tr>
                 <th>First name</th>
                 <th>Last name</th>
                 <th>Email</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-passanger>
-            <tr>
-                <td>{{passanger.ime}}</td>
-                <td>{{passanger.prezime}}</td>
-                <td>{{passanger.email}}</td>
+        <ng-template pTemplate="body" let-passanger let-editing="editing" let-ri="rowIndex">
+            <tr [pEditableRow]="passanger">
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="passanger.ime" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{passanger.ime}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="passanger.prezime" required />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{passanger.prezime}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" [(ngModel)]="passanger.email" />
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{passanger.email}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <p-button severity="danger" (onClick)="deletePassanger(passanger.putnikId)">X</p-button>
+                </td>
+                <td>
+                    <div class="flex align-items-center justify-content-center gap-2">
+                        <button pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil"
+                            (click)="onRowEditInit(passanger)" class="p-button-rounded p-button-text">
+                        </button>
+                        <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                            (click)="onRowEditSave(passanger)"
+                            class="p-button-rounded p-button-text p-button-success mr-2">
+                        </button>
+                        <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                            (click)="onRowEditCancel(passanger, ri)"
+                            class="p-button-rounded p-button-text p-button-danger">
+                        </button>
+                    </div>
+                </td>
             </tr>
         </ng-template>
+
     </p-table>
 </div>
 
@@ -184,7 +253,8 @@
             [showClear]="true" placeholder="Select a Arriving terminal">
             <ng-template pTemplate="selectedItem">
                 <div class="flex align-items-center gap-2" *ngIf="currentArrivingTerminal">
-                    <div>Peron: {{ currentArrivingTerminal.peronId}}, {{ currentArrivingTerminal.visina }}m</div>
+                    <div>Peron: {{ currentArrivingTerminal.peronId}}, {{ currentArrivingTerminal.visina }}m
+                    </div>
                 </div>
             </ng-template>
             <ng-template let-terminal pTemplate="item">
