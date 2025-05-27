@@ -40,7 +40,6 @@ export class BusLineService {
     return this._httpClient.get<ArrivingTerminal[]>(this.arrivingTerminalUrl);
   }
 
-  // Popravi ovo
   public deleteBusLine(lineId: number): Observable<BusLine> {
     return this._httpClient.delete(this.apiUrl + '/' + lineId);
   }

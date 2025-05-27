@@ -189,7 +189,6 @@ export class BusLineComponent implements OnInit {
       .subscribe((a) => {});
     return true;
   }
-  // I OVDJE
   deletePassanger(putnikId: number) {
     this._busLineService
       .deletePassangerForLine(parseInt(this.idParam), putnikId)
